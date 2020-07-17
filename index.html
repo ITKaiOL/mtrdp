@@ -1,0 +1,38 @@
+<!doctype html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8">
+    <title>全日通優惠分析 Day-pass Analyser</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="mtrdp.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/es5-shim/4.5.14/es5-shim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/es5-shim/4.5.14/es5-sham.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/json3/3.3.2/json3.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/es6-shim/0.35.5/es6-shim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/es6-shim/0.35.5/es6-sham.min.js"></script>
+    <script src="mtrdp.js" defer></script>
+  </head>
+  <body>
+    <div id="loading">撈緊 Loading<br>
+      <span id="loading-msg"></span><br>
+      <span id="disclaimer">
+        資料只作參考之用
+        For reference only
+      </span>
+    </div>
+    <div id="title"><span data-string="title"></span>
+      <div id="lang" class="option-group">
+        <i class="material-icons">language</i>
+        <div id="lang-options"></div>
+      </div>
+    </div>
+    <div id="menu"></div>
+    <div id="options">
+      <div class="option-group option-settings">
+        <i class="material-icons">settings</i>
+        <div id="options-options"></div>
+      </div>
+    </div>    
+  </body>
+</html>

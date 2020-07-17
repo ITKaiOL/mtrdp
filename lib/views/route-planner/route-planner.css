@@ -1,0 +1,106 @@
+#route-planner {
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: flex-start;
+  align-items: center;
+}
+#route-planner .btn-reset-all {
+  margin: 1em;
+}
+#route-planner .routes {
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: flex-start;
+  align-items: flex-start;
+  width: 100%;
+}
+#route-planner .route {
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+  border-bottom: 1px solid rgb(0, 0, 64);
+  box-shadow: 0 0.25em 0.125em 0 rgb(0, 0, 32);
+  padding-bottom: 0.5em;
+  position: relative;
+}
+#route-planner .index {
+  position: absolute;
+  top: 0;
+  left: 0;
+  font-size: 1.75em;
+  font-weight: bold;
+  color: rgb(192, 192, 192);
+  padding-left: 0.125em;
+}
+#route-planner .route .selectors-options {
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+#route-planner .route .selectors {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+#route-planner .route .options {
+  padding: 0 0.5em;
+}
+#route-planner .results {
+  align-self: flex-start;
+  width: 100%;
+  margin-top: 0.5em;
+}
+#route-planner .results > div {
+  padding: 0.5em;
+  display: none;
+}
+#route-planner .results > div.octopus {
+  background-color: rgb(255, 204, 204);
+}
+#route-planner .results > div.daypass {
+  background-color: rgb(255, 255, 153);
+}
+#route-planner .results > div.subtotal {
+  background-color: rgb(255, 153, 255);
+}
+#route-planner div.remove {
+  position: absolute;
+  top: 1.5em;
+  left: 0;
+  font-size: 1.5em;
+  font-weight: bold;
+  color: rgb(192, 192, 192);
+}
+#route-planner div.remove button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  color: rgb(192, 192, 192);
+}
+
+@media (min-width: 640px) {
+  #route-planner {
+    align-items: flex-start;
+  }
+  #route-planner .route {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-start;
+    align-items: flex-start;
+  }
+
+  #route-planner .route .selectors-options {
+    padding-left: 4em;
+  } 
+}
+div.buy-pass > span {
+  font-size: 1.5em;
+  font-weight: bold;
+}

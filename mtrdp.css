@@ -7,6 +7,13 @@ html, body {
   margin: 0;
   height: 100%;
   width: 100%;
+  overflow: hidden;
+}
+#source-links {
+  text-align: center;
+  margin: 1em 0;
+  padding: 1em 0;
+  border-top: 1px solid black;
 }
 #title {
   background-color: rgb(192, 128, 128);

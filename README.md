@@ -1,6 +1,6 @@
 # 全日通優惠分析 Day-pass Analyser
 
-##<https://itkaiol.github.io/mtrdp/>
+## <https://itkaiol.github.io/mtrdp/>
 
 全日通: <http://www.mtr.com.hk/ch/customer/tickets/day_pass.html>
 

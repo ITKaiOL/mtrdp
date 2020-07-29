@@ -13,7 +13,7 @@ window.MTRDP = {
 
 (function(app) {
   
-  var scripts = {};
+  const scripts = {};
   
   // import JS/CSS file
   // async
@@ -27,7 +27,7 @@ window.MTRDP = {
       return new Promise(function(resolve) { 
         scripts[url].resolves.push(resolve);
         if(/\.js$/.test(url)) {
-          var script = document.createElement('script');
+          const script = document.createElement('script');
           script.type = 'text/javascript';
           if(script.readyState) {
             script.onreadystatechange = function() {
@@ -42,7 +42,7 @@ window.MTRDP = {
           script.src = url;
           document.getElementsByTagName('head')[0].appendChild(script);
         } else if(/\.css$/.test(url)) {
-          var link = document.createElement('link');
+          const link = document.createElement('link');
           link.type = 'text/css';
           link.rel = 'stylesheet';
           link.onload = function() { resolveAll(url); }

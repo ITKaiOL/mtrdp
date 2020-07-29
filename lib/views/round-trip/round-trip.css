@@ -1,5 +1,5 @@
 /* overview page */
-#round-trip-overview {
+#round-trip {
   display: flex;
   flex-flow: column nowrap;
   align-items: center;

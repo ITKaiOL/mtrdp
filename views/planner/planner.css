@@ -1,0 +1,138 @@
+div[data-section="planner"] {
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: flex-start;
+  align-items: stretch;
+}
+div[data-section="planner"] .btn-reset-all {
+  margin: 1em;
+}
+
+div[data-section="planner"] .routes {
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: flex-start;
+  align-items: flex-start;
+  width: 100%;
+}
+div[data-section="planner"] .route {
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+  border-bottom: 1px solid rgb(0, 0, 64);
+  box-shadow: 0 0.25em 0.125em 0 rgb(0, 0, 32);
+  padding-bottom: 0.5em;
+  position: relative;
+}
+
+div[data-section="planner"] .index {
+  position: absolute;
+  top: 0;
+  left: 0;
+  font-size: 1.75em;
+  font-weight: bold;
+  color: rgb(192, 192, 192);
+  padding-left: 0.125em;
+}
+div[data-section="planner"] .route .selectors-options {
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+div[data-section="planner"] .route .selectors {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+div[data-section="planner"] .route .options {
+  padding: 0 0.5em;
+}
+div[data-section="planner"] .results {
+  align-self: flex-start;
+  width: 100%;
+  margin-top: 0.5em;
+}
+div[data-section="planner"] .results .header {
+  font-style: italic;
+  text-decoration: underline;
+  font-size: 1.1em;
+  padding-bottom: 0.25em;
+}
+div[data-section="planner"] .results > div {
+  padding: 0.5em;
+  display: none;
+  flex-flow: column nowrap;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+div[data-section="planner"] .results .option {
+}
+div[data-section="planner"] .results .option .route-legs {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 0.25em 0;
+  font-size: 1.2em;
+}
+
+div[data-section="planner"] .results > div.octopus {
+  background-color: rgb(255, 204, 204);
+}
+div[data-section="planner"] .results > div.daypass {
+  background-color: rgb(255, 255, 153);
+}
+div[data-section="planner"] .results > div.daypass .buy-pass {
+  padding: 0 0.5em;
+  margin: 0.25em;
+  border-radius: 1em;
+  box-shadow: 0 0 0.5em rgb(102,102,102);
+  background-color: rgb(204, 255, 255);
+  font-style: normal;
+  text-decoration: none;
+  font-weight: bold;
+}
+div[data-section="planner"] .results > div.subtotal {
+  background-color: rgb(255, 153, 255);
+}
+div[data-section="planner"] .results > div.subtotal .preferred {
+  font-weight: bold;
+  font-size: 1.2em;
+}
+div[data-section="planner"] div.remove {
+  position: absolute;
+  top: 1.5em;
+  left: 0;
+  font-size: 1.5em;
+  font-weight: bold;
+  color: rgb(192, 192, 192);
+}
+div[data-section="planner"] div.remove button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  color: rgb(192, 192, 192);
+}
+
+div[data-section="planner"] .route .selectors-options {
+  padding-left: 4em;
+} 
+
+@media (min-width: 640px) {
+  div[data-section="planner"] {
+    align-items: flex-start;
+  }
+  div[data-section="planner"] .route {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-start;
+    align-items: flex-start;
+  }
+}

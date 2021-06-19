@@ -245,12 +245,12 @@
 "WRL","UT","TIS","118","天水圍","Tin Shui Wai",10.00
 "WRL","UT","SIH","119","兆康","Siu Hong",11.00
 "WRL","UT","TUM","120","屯門","Tuen Mun",12.00
-"SIL","UT","ADM","2","金鐘","Admiralty",
+"SIL","UT","ADM","2","金鐘","Admiralty",1.00
 "SIL","UT","OCP","86","海洋公園","Ocean Park",2.00
 "SIL","UT","WCH","87","黃竹坑","Wong Chuk Hang",3.00
 "SIL","UT","LET","88","利東","Lei Tung",4.00
 "SIL","UT","SOH","89","海怡半島","South Horizons",5.00
-"SIL","DT","SOH","89","海怡半島","South Horizons",
+"SIL","DT","SOH","89","海怡半島","South Horizons",1.00
 "SIL","DT","LET","88","利東","Lei Tung",2.00
 "SIL","DT","WCH","87","黃竹坑","Wong Chuk Hang",3.00
 "SIL","DT","OCP","86","海洋公園","Ocean Park",4.00

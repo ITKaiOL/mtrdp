@@ -19,6 +19,15 @@ html, body {
   background-color: rgb(192, 128, 128);
   color: rgb(255, 255, 255);
 }
+#title > a {
+  font-size: 1em;
+  padding-left: 1em;
+  text-decoration: none;
+  color: white;
+}
+#title > a .material-icons {
+  font-size: 1em;
+}
 #title > span {
   font-size: 1.5em;
   font-weight: bold;

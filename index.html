@@ -6,10 +6,9 @@
     <title>全日通優惠分析 Day-pass Analyser</title>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="mtrdp.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/es5-shim/4.5.14/es5-shim.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/es5-shim/4.5.14/es5-sham.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/es6-shim/0.35.5/es6-shim.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/es6-shim/0.35.5/es6-sham.min.js"></script>
+    <!-- I don't care about IE OK? -->
+    <script src="https://polyfill.io/v3/polyfill.min.js"></script>
+    <!-- entry point -->
     <script src="mtrdp.js" defer></script>
   </head>
   <body>
@@ -17,7 +16,9 @@
       <span id="loading-msg"></span><br>
       <span id="disclaimer">
         資料只作參考之用
-        For reference only
+        For reference only.<br>
+        如有損失自己硬食
+        Use at your own risk.
       </span>
     </div>
     <div id="title"><span data-string="title"></span>
@@ -32,6 +33,7 @@
         <i class="material-icons">settings</i>
         <div id="options-options"></div>
       </div>
-    </div>    
+    </div>  
+    <div id="content"></div>  
   </body>
 </html>

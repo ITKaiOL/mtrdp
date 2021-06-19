@@ -1,0 +1,141 @@
+div[data-section="overview"] {
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+div[data-section="overview"] .selector-controls {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: center;
+}
+
+div[data-section="overview"] .main-discount {
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
+div[data-section="overview"] .discount-option-group {
+  display: flex;
+  flex-flow: row wrap;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
+div[data-section="overview"] .discount-option-group input {
+  padding-left: 0.25em;
+}
+
+div[data-section="overview"] .discount-option-group label {
+  padding-right: 0.25em;
+}
+
+div[data-section="overview"] .result {
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
+div[data-section="overview"] .result .line-stations {
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
+div[data-section="overview"] .result .line {
+  margin: 0.25em;
+  padding: 1em;
+  background-color: rgb(192, 192, 255);
+  border: 1px solid rgb(0, 0, 64);
+}
+div[data-section="overview"] .result .stations {
+  display: flex;
+  flex-flow: row wrap;
+  align-items: stretch;
+  justify-content: flex-start;
+}
+div[data-section="overview"] .result .stations .station {
+  display: flex;
+  flex-flow: column nowrap;
+  flex-grow: 1;
+  align-items: stretch;
+  justify-content: flex-start;
+  min-width: 8em;
+  min-height: 6em;
+  margin: 0.25em;
+  padding: .375em;
+  background-color: rgb(192, 255, 192);
+  border: 1px solid rgb(0, 64, 0);
+}
+div[data-section="overview"] .result .stations::after {
+  content: '';
+  flex-grow: 999999;
+}
+div[data-section="overview"] .result .stations .station.daypass {
+  background-color: rgb(204, 255, 255);
+  border: 1.5px solid rgb(0, 32, 32);
+}
+div[data-section="overview"] .result .stations .station.daypass-transit {
+  background-color: rgb(204, 255, 240);
+  border: 1.5px solid rgb(0, 32, 32);
+}
+div[data-section="overview"] .result .stations .station > div {
+  font-size: 0.75em;
+}
+div[data-section="overview"] .result .stations .station div.station-name {
+  font-size: 1em;
+  padding: 0.25em;
+}
+
+div[data-section="overview"] .result .stations .station div.station-desc {
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: stretch;
+  justify-content: flex-start;
+}
+div[data-section="overview"] .result .stations .station div.station-desc div.option {
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: 0.5em;
+}
+
+div[data-section="overview"] .result .stations .station div.option span.header {
+  font-style: italic;
+  text-decoration: underline;
+  padding-bottom: 0.25em;
+}
+div[data-section="overview"] .result .stations .station div.option.best {
+  border: 1px solid rgb(51,51,51);
+  box-shadow: .25em .25em 1em rgb(102, 102, 102);
+}
+div[data-section="overview"] .result .stations .station div.option.best span.header {
+  font-weight: bold;
+}
+div[data-section="overview"] .result .stations .station div.option .material-icons {
+  font-size: 1.2em;
+}
+div[data-section="overview"] .result .stations .station div.station-desc div {
+  display: flex;
+  flex-flow: row wrap;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+div[data-section="overview"] .result .stations .station .buy-pass {
+  padding: 0 0.5em;
+  margin: 0.25em;
+  border-radius: 1em;
+  box-shadow: 0 0 0.5em rgb(102,102,102);
+  background-color: rgb(204, 255, 255);
+  font-style: normal;
+  text-decoration: none;
+  font-weight: bold;
+}

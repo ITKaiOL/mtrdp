@@ -53,7 +53,13 @@
     
     // add station selector
     currOptions.station = app.STATE.get('so', 's');
-    stationSelector = new app.StationSelector(currOptions.station);
+    stationSelector = new app.StationSelector();
+    if(app.LINES.hasStation(currOptions.station)) {
+      stationSelector.select(currOptions.station);
+    } else {
+      currOptions.station = null;
+    }
+    
     stationSelector.attach(selectorDiv, (stationID)=>{
       app.STATE.set('so', 's', stationID);
       currOptions.station = stationID;

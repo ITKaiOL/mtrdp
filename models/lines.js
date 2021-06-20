@@ -193,6 +193,7 @@
   const getInfo = () => stationInfo;
   const getLineDirs = () => lineDirs;
   const getStations = () => Object.keys(stationInfo);
+  const hasStation = (stationID) => stationInfo.hasOwnProperty(stationID);
   
   app.LINES = {
     init: init,
@@ -200,6 +201,7 @@
     getInfo: getInfo,
     getLineDirs: getLineDirs,
     getStations: getStations,
+    hasStation: hasStation
   };
   
 }(window.MTRDP));

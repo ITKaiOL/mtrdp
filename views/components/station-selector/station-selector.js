@@ -16,6 +16,7 @@
     await app.loadAll([
       'views/components/station-selector/station-selector.css',
       'CONF',
+      'LINES',
       'DOM',
     ]);
   };
@@ -196,10 +197,12 @@
   
   // manually select a station
   StationSelector.prototype.select = function(stationID) {
-    this.value = stationID;
-    app.LANG.update(this.textElem, stationID, 'mtr');
-    this.reset();
-    this.notifyAll();
+    if(app.LINES.hasStation(stationID)) {
+      this.value = stationID;
+      app.LANG.update(this.textElem, stationID, 'mtr');
+      this.reset();
+      this.notifyAll();
+    }
   };
 
   // notify all listener with the current value

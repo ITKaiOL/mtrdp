@@ -179,6 +179,8 @@
   
   // find possible itineraries from s1 to s2
   const getItineraries = (s1, s2, opt) => {
+    opt = opt || {};
+    
     const result = [];
     
     // determine if transit is preferred by options

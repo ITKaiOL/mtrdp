@@ -163,17 +163,15 @@
       }
     }
     
-    // add all subpath to cache
-    for(let p1 = 0; p1 < minPath.length-1; ++p1) {
-      let pCost = 0;
-      for(let p2 = p1+1; p2 < minPath.length; ++p2) {
-        pCost += edges[minPath[p2-1]][minPath[p2]]
-        if(!searchCache.hasOwnProperty(minPath[p1])) {
-          searchCache[minPath[p1]] = {};
-        }
-        if(!searchCache[minPath[p1]].hasOwnProperty(minPath[p2])) {
-          searchCache[minPath[p1]][minPath[p2]] = { cost: pCost, path: minPath.slice(p1, p2+1) };
-        }
+    // add all subpath ends with the target to cache
+    let pCost = 0
+    for(let p = minPath.length-2; p >= 0; --p) {
+      pCost += edges[minPath[p]][minPath[p+1]];
+      if(!searchCache.hasOwnProperty(minPath[p])) {
+        searchCache[minPath[p]] = {};
+      }
+      if(!searchCache[minPath[p]].hasOwnProperty(n2)) {
+        searchCache[minPath[p]][n2] = { cost: pCost, path: minPath.slice(p) };
       }
     }
     return minCost;
@@ -326,10 +324,8 @@
         console.log("?");
       }
       
-      // add only if amount saved is more than the dist travelled 
-      // if extra dist is within acceptable range
+      // add only if extra dist is within acceptable range
       if(totalDist - oriDist < app.CONF.interchange.acceptRate * minFare) {
-//      if((totalDist - oriDist)/oriDist < 10*(original.fare - transitTrip.fare)/original.fare) {
         return transitTrip;
       }
     }

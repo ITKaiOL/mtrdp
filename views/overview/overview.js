@@ -121,109 +121,123 @@
       }
       
       itineraries.forEach((itin) => {
-        // group outbound/inbound into options
-        const options = {
-          direct: { out: null, in: null, cost: 0, usePass: false, best: false, direct: true },
-          transit: { out: null, in: null, cost: 0, usePass: false, best: false, direct: false },
-          dayPass: { out: null, in: null, cost: passCost, usePass: true, best: false, direct: false },
-          dayPassTransit: { out: null, in: null, cost: passCost, usePass: true, best: false, direct: false }
-        };
-        ['in', 'out'].forEach(dir => {
-          itin[dir].forEach(leg => {
-            if(leg.usePass && leg.transitForced) {
-              options.dayPassTransit[dir] = leg;
-              options.dayPassTransit.cost += leg.fare;
-            }
-            if(leg.usePass && !leg.transitForced) {
-              options.dayPass[dir] = leg;
-              options.dayPass.cost += leg.fare;
-            }
-            if(!leg.usePass && leg.transitForced) {
-              options.transit[dir] = leg;
-              options.transit.cost += leg.fare;
-            }
-            if(!leg.usePass && !leg.transitForced) {
-              options.direct[dir] = leg;
-              options.direct.cost += leg.fare;
+      
+        // buld options and find best dist without pass
+        const candidateOptions = [];
+        let bestDistNoPassRoute = null;
+        let bestDistUsePassRoute = null;
+        itin.out.forEach(outleg => {
+          itin.in.forEach(inleg => {
+            if(inleg.usePass === outleg.usePass) {
+              route = { out: outleg, in: inleg, 
+                        cost: inleg.fare + outleg.fare, 
+                        usePass: inleg.usePass, best: false,
+                        dist: inleg.dist + outleg.dist };
+              if(!route.usePass && 
+                  (bestDistNoPassRoute === null || 
+                   route.dist < bestDistNoPassRoute.dist || 
+                   (route.dist === bestDistNoPassRoute.dist && route.cost > bestDistNoPassRoute.cost))) {
+                bestDistNoPassRoute = route;
+              } else if(route.usePass && 
+                  (bestDistUsePassRoute === null || 
+                   route.dist < bestDistUsePassRoute.dist || 
+                   (route.dist === bestDistUsePassRoute.dist && route.cost > bestDistUsePassRoute.cost))) {
+                bestDistUsePassRoute = route;
+              }
+              candidateOptions.push(route);
             }
           });
         });
         
+        // sort option by dist
+        candidateOptions.sort((a, b) => (a.dist !== b.dist ? a.dist - b.dist : a.cost - b.cost));
+        
+        // keep only options that are:
+        //   1. best dist without pass
+        //   2. route that use pass and 
+        //      at most the cost of #1 not including pass cost
+        //   3. route that do not use pass with cost 
+        //      at most the cost of best dist in #2 
+        //      but including pass cost 
+        let currentBestNoPassCost = bestDistNoPassRoute.cost;
+        let currentBestUsePassCost = bestDistNoPassRoute.cost;
+        const options = candidateOptions.filter(option => {
+          if(option === bestDistNoPassRoute) {
+            return true;
+          }
+          if(option.usePass && option.cost <= bestDistNoPassRoute.cost && option.cost <= currentBestUsePassCost) {
+            currentBestUsePassCost = option.cost;
+            return true;
+          } 
+          if(!option.usePass && option.cost <= currentBestNoPassCost 
+                    && (bestDistUsePassRoute === null || option.cost <= bestDistUsePassRoute.cost + passCost)) {
+            currentBestNoPassCost = option.cost;
+            return true;
+          }
+          return false;
+        });
+        
+        // add pass cost
+        options.forEach(option => {
+          if(option.usePass) {
+            option.cost += passCost;
+          }
+        });
+        
+        // sort option by dist/pass uses/cost
+        options.sort((a, b) => {
+          if(a.dist !== b.dist) {
+            return a.dist - b.dist;
+          }
+          if(a.usePass !== b.usePass) {
+            return a.usePass ? 1: -1
+          }
+          return a.cost - b.cost;
+        });
+        
+        // determine best cost
+        const costs = {
+          noPass: { min: Infinity, max: 0, count: 0 },
+          usePass: { min: Infinity, max: 0, count: 0 }
+        };
+        let minCost = Infinity;
+        let minCostNoPass = false;
+        options.forEach(option => {
+          if(option.usePass) {
+            costs.usePass.min = Math.min(costs.usePass.min, option.cost);
+            costs.usePass.max = Math.max(costs.usePass.max, option.cost);
+            costs.usePass.count++;
+          } else {
+            costs.noPass.min = Math.min(costs.noPass.min, option.cost);
+            costs.noPass.max = Math.max(costs.noPass.max, option.cost);
+            costs.noPass.count++;
+          }
+          if(option.cost < minCost) {
+            minCost = option.cost;
+            minCostNoPass = !option.usePass;
+          } else if(option.cost === minCost && !option.usePass) {
+            minCostNoPass = true;
+          }
+        });
+        
         descDivs[itin.station].forEach(descDiv => {
           descDiv.innerHTML = '';
-          descDiv.parentNode.classList.remove('daypass-transit');
+          descDiv.parentNode.classList.remove('daypass-maybe');
           descDiv.parentNode.classList.remove('daypass');
           
           // only if not the current station
           if(itin.station !== currOptions.station) {
-            let minNormalCost = options.direct.cost;
             
-            const choices = [];
-            // normal
-            choices.push(options.direct);
-            
-            // transit
-            if(options.transit.out !== null || options.transit.in !== null) {
-              if(options.transit.out === null) {
-                options.transit.out = options.direct.out;
-                options.transit.cost += options.transit.out.fare;
-              }
-              if(options.transit.in === null) {
-                options.transit.in = options.direct.in;
-                options.transit.cost += options.transit.in.fare;
-              }
-              choices.push(options.transit);
-              if(options.transit.cost < minNormalCost) {
-                minNormalCost = options.transit.cost;
-              }
+            if(costs.usePass.count > 0 && costs.usePass.max < costs.noPass.min) {
+              if(itin.station == 6)
+                console.log(costs);
+              descDiv.parentNode.classList.add('daypass');            
+            } else if(costs.usePass.count > 0 && costs.usePass.min  < costs.noPass.max) {
+              descDiv.parentNode.classList.add('daypass-maybe');  
             }
-            
-            // day pass
-            if(options.dayPass.out !== null && options.dayPass.in !== null) {
-              choices.push(options.dayPass);
-              
-              // +transit
-              if(options.dayPassTransit.out !== null || options.dayPassTransit.in !== null) {
-                if(options.dayPassTransit.out === null) {
-                  options.dayPassTransit.out = options.dayPass.out;
-                  options.dayPassTransit.cost += options.dayPassTransit.out.fare;
-                }
-                if(options.dayPassTransit.in === null) {
-                  options.dayPassTransit.in = options.dayPass.in;
-                  options.dayPassTransit.cost += options.dayPassTransit.in.fare;
-                }
-                choices.push(options.dayPassTransit);
-                
-                // determine class if this is somehow a better choice
-                if (options.dayPassTransit.cost < minNormalCost) {
-                  descDiv.parentNode.classList.add('daypass-transit');
-                }
-              }
-              
-              // determine real class
-              if(options.dayPass.cost < minNormalCost && options.dayPass.cost < options.direct.cost) {
-                descDiv.parentNode.classList.remove('daypass-transit');
-                descDiv.parentNode.classList.add('daypass');
-              } else if (options.dayPass.cost < options.direct.cost) {
-                descDiv.parentNode.classList.add('daypass-transit');
-              }
-            }
-            
-            // find min cost
-            let minCost = Infinity;
-            let minCostWithPass = null;
-            choices.forEach((choice, idx) => {
-              if(choice.cost < minCost) {
-                minCost = choice.cost;
-                minCostWithPass = choice.usePass;
-              } else if(choice.cost === minCost) {
-                // fix to false if possible
-                minCostWithPass = minCostWithPass && choice.usePass;
-              }
-            });
-            
-            choices.forEach((choice, idx) => {
-              if(choice.cost === minCost && minCostWithPass === choice.usePass) {
+
+            options.forEach((choice, idx) => {
+              if(choice.cost === minCost && minCostNoPass !== choice.usePass) {
                 choice.best = true;
               }
               genOptionDesc(descDiv, idx+1, choice);

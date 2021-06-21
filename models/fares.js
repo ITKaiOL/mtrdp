@@ -202,14 +202,11 @@
       }
     }
     
-    // consider use of pass
-    let bestCase = { dist: Infinity, length: 0, fare: Infinity, itin: null };
-    
-    // use of pass with transit
-    let bestTCase = { dist: Infinity, length: 0, fare: Infinity, itin: null };
-    
     const daypassS1List = (app.CONF.dayPass.stations.indexOf(s1) >= 0?[s1]:app.CONF.dayPass.stations);
     const daypassS2List = (app.CONF.dayPass.stations.indexOf(s2) >= 0?[s2]:app.CONF.dayPass.stations);
+    
+    const passCases = [];
+    
     daypassS1List.forEach(dps1 => {
       daypassS2List.forEach(dps2 => {
         if(dps1 !== dps2) {
@@ -239,11 +236,14 @@
           }
           if(passCase.length > 0) {
             passCase[passCase.length-1].transitFrom = 'daypass';
+            if(passTCase.length > 0) {
+              passTCase[passTCase.length-1].transitFrom = 'daypass';
+            }
           }
           passCase.push({from: dps1, to: dps2, usePass: true, transitTo: 'daypass' });
           totalDist += fareDist[dps1][dps2];
           
-          if(forceTransit) {
+          if(passTCase.length > 0) {
             passTCase.push({from: dps1, to: dps2, usePass: true});
             totalTDist += fareDist[dps1][dps2];
           }
@@ -254,7 +254,7 @@
             totalDist += getTotalDist(postTrip.itin);
 
             // consider case of forced transit 
-            if(postTrip.itin.length === 1 && forceTransit) {
+            if(passTCase.length > 0) {
               const transitTrip = getAlternativeItinerary(postTrip, opt);
               if(transitTrip) {
                 passTCase = passTCase.concat(transitTrip.itin);
@@ -268,80 +268,41 @@
           }
           
           totalDist = parseFloat(totalDist.toFixed(3));
-          const passFare = calFare(passCase, { disOpt: opt });
-
-          if(bestCase.dist > totalDist || 
-             (bestCase.dist === totalDist && bestCase.fare > passFare) ||
-             (bestCase.dist === totalDist && bestCase.fare === passFare && bestCase.length < fareDist[dps1][dps2])) {
-               bestCase = {
-                 dist: totalDist, 
-                 fare: passFare, 
-                 length: fareDist[dps1][dps2], 
-                 itin: passCase
-               };
-          }
-          
-          // only if alternatives found
+          passCases.push({ itin: passCase, dist: totalDist, passDist: fareDist[dps1][dps2], fare: calFare(passCase, { disOpt: opt }) });
           if(hasAlternativeItin) {
             totalTDist = parseFloat(totalTDist.toFixed(3));
-            const passTFare = calFare(passTCase, { disOpt: opt });
-            if(bestTCase.dist > totalTDist || 
-               (bestTCase.dist === totalTDist && bestTCase.fare > passTFare) ||
-               (bestTCase.dist === totalTDist && bestTCase.fare === passTFare && bestTCase.length < fareDist[dps1][dps2])) {
-                 bestTCase = {
-                   dist: totalTDist, 
-                   fare: passTFare, 
-                   length: fareDist[dps1][dps2], 
-                   itin: passTCase
-                 };
-            }
-          }  
+            passCases.push({ itin: passTCase, dist: totalDist, passDist: fareDist[dps1][dps2], fare: calFare(passTCase, { disOpt: opt }) });
+          }
         }
       });
     });  
     
-    // only if it save money
-    if(bestCase.fare < directItin.fare) {
-      result.push({ itin: bestCase.itin, fare: bestCase.fare, usePass: true, transitForced: false });
-    }
+    // decide which case should be included.
+    // first find the one with least dist / fare + max length used with pass
+    passCases.sort((a, b) => {
+      if(a.dist !== b.dist) {
+        return b.dist - a.dist;
+      }
+      if(a.fare !== b.fare) {
+        return b.fare - a.fare;
+      }
+      return b.passDist - a.passDist;
+    });
     
-    // if force transit gives better fare 
-    if(forceTransit && bestTCase.fare < directItin.fare && bestTCase.fare < bestCase.fare) {
-      result.push({ itin: bestTCase.itin, fare: bestTCase.fare, usePass: true, transitForced: true });
+    // include all cases that has lower fare then the current min
+    let currMinFare = Infinity;
+    while(passCases.length > 0) {
+      const passCase = passCases.pop();
+      if(passCase.fare < currMinFare){
+        currMinFare = passCase.fare;
+        result.push({ itin: passCase.itin, dist: passCase.dist, fare: passCase.fare, usePass: true });
+      }
     }
 
     return result;
   };
   
-  const getAlternativeItinerary = (original, opt) => {
-    const s1 = original.itin[0].from;
-    const s2 = original.itin[original.itin.length-1].to;
-    const oriDist = getTotalDist(original.itin);
-    
-    const transitTrip = getItinerary(s1, s2, { disOpt: opt, transit: true });
-    if(transitTrip.fare < original.fare) { // if transit is cheaper
-    
-      const totalDist = getTotalDist(transitTrip.itin);
-      if(s1 == 116 && s2 == 2) {
-        console.log("?");
-      }
-      
-      // add only if extra dist is within acceptable range
-      if(totalDist - oriDist < app.CONF.interchange.acceptRate * minFare) {
-        return transitTrip;
-      }
-    }
-    return null;
-  };
-  
-  const getTotalDist = (itin) => {
-    let totalDist = 0;
-    itin.forEach(trip => {
-      totalDist += fareDist[trip.from][trip.to];
-    });
-    return parseFloat(totalDist.toFixed(3));
-  };
-  
+
   // find route from s1 to s2
   const getItinerary = (s1, s2, opt) => {
     opt = Object.assign({ disOpt: {}, transit: false }, opt || {});
@@ -359,16 +320,40 @@
         const dist10 = fareDist[s1][changeStations[1]] + fareDist[changeStations[0]][s2];
         
         if(dist01 <= dist10 && (dist01 < tripDist || opt.transit)) {
+          tripDist = dist01;
           trips = [{ from: s1, to: changeStations[0], transitFrom: sc }, { from: changeStations[1], to: s2, transitTo: sc }]
         } else if(dist01 > dist10 && (dist10 < tripDist || opt.transit)) {
+          tripDist = dist10;
           trips = [{ from: s1, to: changeStations[0], transitFrom: sc }, { from: changeStations[1], to: s2, transitTo: sc }]
         }
       }
     }
     
-    return { itin: trips, fare: calFare(trips, opt), usePass: false, transitForced: opt.transit };
+    return { itin: trips, dist: parseFloat(tripDist.toFixed(3)), fare: calFare(trips, opt), usePass: false, transitForced: opt.transit };
   };
   
+  const getAlternativeItinerary = (original, opt) => {
+    const s1 = original.itin[0].from;
+    const s2 = original.itin[original.itin.length-1].to;
+    
+    const transitTrip = getItinerary(s1, s2, { disOpt: opt, transit: true });
+    if(transitTrip.fare < original.fare) { // if transit is cheaper
+      // add only if extra dist is within acceptable range
+      if(transitTrip.dist - original.dist < app.CONF.interchange.acceptRate * minFare) {
+        return transitTrip;
+      }
+    }
+    return null;
+  };
+  
+  const getTotalDist = (itin) => {
+    let totalDist = 0;
+    itin.forEach(trip => {
+      totalDist += fareDist[trip.from][trip.to];
+    });
+    return parseFloat(totalDist.toFixed(3));
+  };
+    
   // calculate fare with discount
   const calFare = (trips, opt) => {
     opt = Object.assign({ disOpt: {} }, opt || {});

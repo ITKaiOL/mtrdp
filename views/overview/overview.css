@@ -81,7 +81,7 @@ div[data-section="overview"] .result .stations .station.daypass {
   background-color: rgb(204, 255, 255);
   border: 1.5px solid rgb(0, 32, 32);
 }
-div[data-section="overview"] .result .stations .station.daypass-transit {
+div[data-section="overview"] .result .stations .station.daypass-maybe {
   background-color: rgb(204, 255, 240);
   border: 1.5px solid rgb(0, 32, 32);
 }

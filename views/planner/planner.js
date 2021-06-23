@@ -216,29 +216,37 @@
         return a.usePass?1:0 - b.usePass?1:0;
       })
       
-      // find cost first
+      // group and filter itineraries
       const itinCost = {
         noPass: { min: Infinity, max: 0 },
         usePass: { min: Infinity, max: 0 }
       };
+      const validItin = [];
       
-      let passLegCount = 0;
+      // find cost and itinerary for not using pass
       let noPassLegCount = 0;
       itin.forEach(leg => {
-        if(leg.usePass) {
-          passLegCount++;
-          leg.idx = passLegCount;
-          itinCost.usePass.min = Math.min(itinCost.usePass.min, leg.fare);
-          itinCost.usePass.max = Math.max(itinCost.usePass.max, leg.fare);
-        } else {
-          noPassLegCount++;
-          leg.idx = noPassLegCount;
+        if(!leg.usePass) {
+          leg.idx = noPassLegCount + 1;
           itinCost.noPass.min = Math.min(itinCost.noPass.min, leg.fare);
           itinCost.noPass.max = Math.max(itinCost.noPass.max, leg.fare);
+          validItin.push(leg);
+          noPassLegCount++;
+        }
+      });
+
+      let passLegCount = 0;
+      itin.forEach(leg => {
+        if(leg.usePass && leg.fare < itinCost.noPass.max) {
+          leg.idx = passLegCount + 1;
+          itinCost.usePass.min = Math.min(itinCost.usePass.min, leg.fare);
+          itinCost.usePass.max = Math.max(itinCost.usePass.max, leg.fare);
+          validItin.push(leg);
+          passLegCount++;
         }
       });
       
-      if(passLegCount + noPassLegCount > 0) {
+      if(validItin.length > 0) { // if valid
         
         // reset descriptions
         routes[idx].resultDivs.octopus.innerHTML = '';
@@ -279,7 +287,7 @@
         cost.noPass.max = parseFloat(cost.noPass.max.toFixed(3));
         
         // fill in descriptions
-        itin.forEach(leg => {
+        validItin.forEach(leg => {
           const descBox = app.DOM.create('div', { className: 'option' });
           
           if(!leg.usePass) {

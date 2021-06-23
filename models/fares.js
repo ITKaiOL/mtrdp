@@ -281,12 +281,12 @@
     // first find the one with least dist / fare + max length used with pass
     passCases.sort((a, b) => {
       if(a.dist !== b.dist) {
-        return b.dist - a.dist;
+        return b.dist - a.dist; // less dist first
       }
       if(a.fare !== b.fare) {
-        return b.fare - a.fare;
+        return b.fare - a.fare; // then lesser price
       }
-      return b.passDist - a.passDist;
+      return a.passDist - b.passDist; // then longer day-pass trip
     });
     
     // include all cases that has lower fare then the current min

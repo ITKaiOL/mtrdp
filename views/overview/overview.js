@@ -121,7 +121,6 @@
       }
       
       itineraries.forEach((itin) => {
-      
         // buld options and find best dist without pass
         const candidateOptions = [];
         let bestDistNoPassRoute = null;
@@ -151,7 +150,7 @@
         
         // sort option by dist
         candidateOptions.sort((a, b) => (a.dist !== b.dist ? a.dist - b.dist : a.cost - b.cost));
-        
+
         // keep only options that are:
         //   1. best dist without pass
         //   2. route that use pass and 
@@ -165,8 +164,7 @@
           if(option === bestDistNoPassRoute) {
             return true;
           }
-          if(option.usePass && option.cost <= bestDistNoPassRoute.cost && option.cost <= currentBestUsePassCost) {
-            currentBestUsePassCost = option.cost;
+          if(option.usePass && option.cost <= bestDistNoPassRoute.cost) {
             return true;
           } 
           if(!option.usePass && option.cost <= currentBestNoPassCost 
@@ -229,8 +227,6 @@
           if(itin.station !== currOptions.station) {
             
             if(costs.usePass.count > 0 && costs.usePass.max < costs.noPass.min) {
-              if(itin.station == 6)
-                console.log(costs);
               descDiv.parentNode.classList.add('daypass');            
             } else if(costs.usePass.count > 0 && costs.usePass.min  < costs.noPass.max) {
               descDiv.parentNode.classList.add('daypass-maybe');  

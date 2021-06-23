@@ -278,23 +278,25 @@
     });  
     
     // decide which case should be included.
-    // first find the one with least dist / fare + max length used with pass
+    // first find the one with least dist / max pass dist then fare
     passCases.sort((a, b) => {
       if(a.dist !== b.dist) {
         return b.dist - a.dist; // less dist first
       }
-      if(a.fare !== b.fare) {
-        return b.fare - a.fare; // then lesser price
+      if(a.passDist !== b.passDist) {
+        return a.passDist - b.passDist; // then longer day-pass trip
       }
-      return a.passDist - b.passDist; // then longer day-pass trip
+      return b.fare - a.fare; // then lesser price
     });
     
     // include all cases that has lower fare then the current min
+    //  of same dist as the previous and lower then the previous min
     let currMinFare = Infinity;
     while(passCases.length > 0) {
       const passCase = passCases.pop();
-      if(passCase.fare < currMinFare){
+      if(passCase.fare < currMinFare) {
         currMinFare = passCase.fare;
+        currDist = passCase.dist;
         result.push({ itin: passCase.itin, dist: passCase.dist, fare: passCase.fare, usePass: true });
       }
     }

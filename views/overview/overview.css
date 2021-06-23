@@ -114,7 +114,8 @@ div[data-section="overview"] .result .stations .station div.option span.header {
 }
 div[data-section="overview"] .result .stations .station div.option.best {
   border: 1px solid rgb(51,51,51);
-  box-shadow: .25em .25em 1em rgb(102, 102, 102);
+  box-shadow: .25em .25em 0.5em rgb(102, 102, 102);
+  margin-bottom: 0.5em;
 }
 div[data-section="overview"] .result .stations .station div.option.best span.header {
   font-weight: bold;

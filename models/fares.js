@@ -180,7 +180,9 @@
   // find possible itineraries from s1 to s2
   const getItineraries = (s1, s2, opt) => {
     opt = opt || {};
-    
+    if(s2 == 33) {
+      console.log(s2);
+    }
     const result = [];
     
     // determine if transit is preferred by options
@@ -324,7 +326,7 @@
           trips = [{ from: s1, to: changeStations[0], transitFrom: sc }, { from: changeStations[1], to: s2, transitTo: sc }]
         } else if(dist01 > dist10 && (dist10 < tripDist || opt.transit)) {
           tripDist = dist10;
-          trips = [{ from: s1, to: changeStations[0], transitFrom: sc }, { from: changeStations[1], to: s2, transitTo: sc }]
+          trips = [{ from: s1, to: changeStations[1], transitFrom: sc }, { from: changeStations[0], to: s2, transitTo: sc }]
         }
       }
     }

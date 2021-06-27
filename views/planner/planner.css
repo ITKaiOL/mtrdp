@@ -88,13 +88,15 @@ div[data-section="planner"] .results > div.octopus {
 div[data-section="planner"] .results > div.octopus div.directions {
   padding: 0.5em 0;
   font-size: 1.2em;
+  display: flex;
+  flex-flow: row wrap;
+  align-items: center;
+  justify-content: flex-start;
 }
 div[data-section="planner"] .results > div.octopus div.directions .material-icons {
   font-size: 1em;
 }
-div[data-section="planner"] .results > div.octopus div.directions a {
-  color: black
-}
+
 div[data-section="planner"] .results > div.daypass {
   background-color: rgb(255, 255, 153);
 }

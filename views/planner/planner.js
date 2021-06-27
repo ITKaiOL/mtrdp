@@ -333,19 +333,23 @@
         );
         
         // links to Google maps
+        const stationFrom = routes[idx].selectors.from.getValue();
+        const stationTo = routes[idx].selectors.to.getValue();
+        const tripElement = app.TripWidget.create([
+          { from: stationFrom, to: stationTo, 
+            link: app.MAPSLINK.get(
+              app.LINES.getInfo(stationFrom)['nameEN'], 
+              app.LINES.getInfo(stationTo)['nameEN']
+            )
+          },
+        ]);
         routes[idx].resultDivs.octopus.appendChild(
           app.DOM.create('div', { className: 'directions' }, [
-            app.DOM.link(
-              app.MAPSLINK.get(
-                app.LINES.getInfo(routes[idx].selectors.from.getValue())['nameEN'], 
-                app.LINES.getInfo(routes[idx].selectors.to.getValue())['nameEN']
-              ), [
-                app.DOM.matIcon('directions'),
-                app.LANG.create('Directions via Google Maps', 'overview')
-              ], true
-            )
-          ])
-        );
+            app.DOM.matIcon('directions'),
+            app.LANG.create('Directions via Google Maps', 'overview'),
+            ': '
+          ].concat(tripElement)
+        ));
       }             
     });
 

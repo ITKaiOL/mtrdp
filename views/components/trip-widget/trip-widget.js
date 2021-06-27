@@ -14,14 +14,32 @@
     const elements = [];
     itin.forEach(leg => {
       const classNames = ['tWidget-trip-leg'];
-      if(leg.usePass) {
-        classNames.push('use-pass')
-      }
-      elements.push(app.DOM.create('div', { className: classNames.join(' ') }, [
+      let contents = [
         app.LANG.create(leg.from, 'mtr'),
         '➔',
         app.LANG.create(leg.to, 'mtr'),
-      ]));
+      ];
+      
+      if(leg.usePass) {
+        classNames.push('use-pass')
+      }
+      
+      if(leg.hasOwnProperty('link')) {
+        classNames.push('link');
+        contents = [app.DOM.link(leg.link, contents, true)];
+      }
+      
+      const div = app.DOM.create('div', { className: classNames.join(' ') }, contents);
+      elements.push(div);
+      
+      if(leg.hasOwnProperty('link')) {
+        div.addEventListener('click', (event) => {
+          event.preventDefault();
+          event.stopPropagation();
+          window.open(leg.link);
+        });
+      }
+      
     });
     return elements;
   };

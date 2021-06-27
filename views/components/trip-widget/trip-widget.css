@@ -4,9 +4,19 @@
   border-radius: 1em;
   box-shadow: 0 0 0.5em rgb(102,102,102);
   background-color: rgb(180, 255, 180);
-  background-color: rgba(180, 255, 180, 0.75);
 }
 .tWidget-trip-leg.use-pass {
   background-color: rgb(192, 255, 255);
-  background-color: rgba(192, 255, 255, 0.75);
+}
+
+.tWidget-trip-leg.link {
+  background-color: rgb(255, 255, 192);
+}
+.tWidget-trip-leg.link a {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+.tWidget-trip-leg.link:hover {
+  background-color: rgb(255, 192, 192);
 }

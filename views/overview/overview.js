@@ -240,30 +240,27 @@
               genOptionDesc(descDiv, idx+1, choice);
             });
             
-            // add direction links
+            // add directions links
+            const links = {
+              out: app.MAPSLINK.get(
+                app.LINES.getInfo(currOptions.station)['nameEN'], 
+                app.LINES.getInfo(itin.station)['nameEN']
+              ),
+              in: app.MAPSLINK.get(
+                app.LINES.getInfo(itin.station)['nameEN'], 
+                app.LINES.getInfo(currOptions.station)['nameEN']
+              )
+            };
+            const tripElements = app.TripWidget.create([
+              { from: currOptions.station, to: itin.station, link: links.out },
+              { from: itin.station, to: currOptions.station, link: links.in }
+            ]);
             descDiv.appendChild(app.DOM.create('div', { className: 'directions' }, [
               app.DOM.create('div', { className: 'dir-header' }, [
                 app.DOM.matIcon('directions'),
                 app.LANG.create('Directions via Google Maps', 'overview')
               ]),
-              app.DOM.create('div', { className: 'dir-body' }, [
-                app.DOM.link(
-                  app.MAPSLINK.get(
-                    app.LINES.getInfo(currOptions.station)['nameEN'], 
-                    app.LINES.getInfo(itin.station)['nameEN']
-                  ), [
-                    app.LANG.create('Outbound'),
-                  ], true
-                ),
-                app.DOM.link(
-                  app.MAPSLINK.get(
-                    app.LINES.getInfo(itin.station)['nameEN'], 
-                    app.LINES.getInfo(currOptions.station)['nameEN']
-                  ), [
-                    app.LANG.create('Inbound'),
-                  ], true
-                )
-              ]),
+              app.DOM.create('div', { className: 'dir-body' }, tripElements),
             ]));
           }
 

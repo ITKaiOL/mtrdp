@@ -147,7 +147,7 @@ div[data-section="overview"] .result .stations .station div.station-desc div.dir
   flex-flow: column nowrap;
   align-items: flex-start;
   justify-content: flex-start;
-  padding: 0.5em;
+  padding: 0.5em 0.25em;
   margin-top: 0.5em;
   border-top: 1px solid black;
   font-size: 1.5em;
@@ -155,6 +155,6 @@ div[data-section="overview"] .result .stations .station div.station-desc div.dir
 div[data-section="overview"] .result .stations .station div.station-desc div.directions .material-icons {
   font-size: 1em;
 }
-div[data-section="overview"] .result .stations .station div.station-desc div.directions .dir-body a {
-  margin-right: 1em;
+div[data-section="overview"] .result .stations .station div.station-desc div.directions .dir-body {
+  font-size: 0.8em;
 }

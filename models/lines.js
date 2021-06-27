@@ -190,7 +190,7 @@
   };
   
   const getLine = (lineCode) => lines[lineCode].slice();
-  const getInfo = () => stationInfo;
+  const getInfo = (station) => station?stationInfo[station]:stationInfo;
   const getLineDirs = () => lineDirs;
   const getStations = () => Object.keys(stationInfo);
   const hasStation = (stationID) => stationInfo.hasOwnProperty(stationID);

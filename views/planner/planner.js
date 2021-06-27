@@ -15,6 +15,7 @@
       'LANG',
       'STATE', // for section options, managed by section
       'OPT',   // for global options
+      'MAPSLINK',
       'FARES',
       'TripWidget',
     ]);
@@ -328,6 +329,21 @@
             app.LANG.create('Without day pass'),
             ': ',
             cost.noPass.min==cost.noPass.max?cost.noPass.min.toFixed(1):(cost.noPass.min.toFixed(1)+' - '+cost.noPass.max.toFixed(1))
+          ])
+        );
+        
+        // links to Google maps
+        routes[idx].resultDivs.octopus.appendChild(
+          app.DOM.create('div', { className: 'directions' }, [
+            app.DOM.link(
+              app.MAPSLINK.get(
+                app.LINES.getInfo(routes[idx].selectors.from.getValue())['nameEN'], 
+                app.LINES.getInfo(routes[idx].selectors.to.getValue())['nameEN']
+              ), [
+                app.DOM.matIcon('directions'),
+                app.LANG.create('Directions via Google Maps', 'overview')
+              ], true
+            )
           ])
         );
       }             

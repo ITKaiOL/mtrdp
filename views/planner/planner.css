@@ -85,6 +85,16 @@ div[data-section="planner"] .results .option .route-legs {
 div[data-section="planner"] .results > div.octopus {
   background-color: rgb(255, 204, 204);
 }
+div[data-section="planner"] .results > div.octopus div.directions {
+  padding: 0.5em 0;
+  font-size: 1.2em;
+}
+div[data-section="planner"] .results > div.octopus div.directions .material-icons {
+  font-size: 1em;
+}
+div[data-section="planner"] .results > div.octopus div.directions a {
+  color: black
+}
 div[data-section="planner"] .results > div.daypass {
   background-color: rgb(255, 255, 153);
 }

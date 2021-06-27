@@ -62,10 +62,12 @@
     },
     'overview': {
       'Option': '選項',
+      'Directions via Google Maps': 'Google 地圖路線搜尋',
     },
     'planner': {
       'Reset all': '重新開始',
       'Option': '選項',
+      'Directions via Google Maps': 'Google 地圖路線搜尋',
       'Day pass not applicable': '全日通不適用',
       'Using day pass': '使用全日通',
       'Without day pass': '不使用',

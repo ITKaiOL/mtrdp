@@ -15,6 +15,7 @@ window.MTRDP = {};
     OPT: 'lib/options.js',
     STATE: 'lib/state.js',
     DOM: 'lib/dom.js',
+    MAPSLINK: 'lib/mapslink.js',
     
     LINES: 'models/lines.js',
     FARES: 'models/fares.js',

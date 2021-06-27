@@ -139,24 +139,40 @@
           if(!history.hasOwnProperty(n3) || pathCost < history[n3]) {
             history[n3] = pathCost;
             const pathEst = parseFloat((pathCost + fares[nodes[n3]][s2]).toFixed(3));
+
             if(n3 === n2) { // reached goal, check minimum cost
               if(pathCost < minCost) {
                 minCost = pathCost;
                 minPath = path;
               }
-            } else if(searchCache.hasOwnProperty(n3) && 
+            } else  { 
+              const candidates = [];
+              let cacheCost = Infinity;
+              
+              // add cache to queue
+              if(searchCache.hasOwnProperty(n3) && 
                       searchCache[n3].hasOwnProperty(n2)) { // cache available
-              if(pathCost + searchCache[n3][n2].cost < minCost) {
-                minCost = pathCost + searchCache[n3][n2].cost;
-                minPath = path.concat(searchCache[n3][n2].path.slice(1));
+                if(pathCost + searchCache[n3][n2].cost < minCost) {
+                  const cachePath = path.concat(searchCache[n3][n2].path.slice(1));                
+                  cacheCost = pathCost + searchCache[n3][n2].cost;
+                  // add to queue as this may not be the best yet
+                  candidates.push({node: n2, cost: cacheCost, est: cacheCost, path: cachePath });
+                }
               }
-            } else if(pathEst < minCost) { // add only if cost less than minimum cost
-              let i = 0;
-              // maintain priority queue
-              while(i<pQueue.length && pQueue[i].est > pathEst) {
-                ++i;
+              
+              // add subpath to queue if cost may be better than cache cost
+              if(pathEst < minCost && pathEst < cacheCost) { // add only if cost less than minimum cost
+                candidates.push({node: n3, cost: pathCost, est: pathEst, path: state.path.concat([n3])});
               }
-              pQueue.splice(i, 0, {node: n3, cost: pathCost, est: pathEst, path: state.path.concat([n3])});
+
+              // add candidates to priority queue
+              candidates.forEach(candidate => {
+                let i = 0;
+                while(i<pQueue.length && pQueue[i].est > candidate.est) {
+                  ++i;
+                }
+                pQueue.splice(i, 0, candidate);              
+              });
             }
           }
         }
@@ -180,7 +196,7 @@
   // find possible itineraries from s1 to s2
   const getItineraries = (s1, s2, opt) => {
     opt = opt || {};
-    
+
     const result = [];
     
     // determine if transit is preferred by options
@@ -297,7 +313,7 @@
       if(passCase.fare < currMinFare) {
         currMinFare = passCase.fare;
         currDist = passCase.dist;
-        result.push({ itin: passCase.itin, dist: passCase.dist, fare: passCase.fare, usePass: true });
+        result.push({ itin: passCase.itin, dist: passCase.dist, passdist: passCase.passDist, fare: passCase.fare, usePass: true });
       }
     }
 
@@ -331,7 +347,7 @@
       }
     }
     
-    return { itin: trips, dist: parseFloat(tripDist.toFixed(3)), fare: calFare(trips, opt), usePass: false, transitForced: opt.transit };
+    return { itin: trips, dist: parseFloat(tripDist.toFixed(3)), passDist: 0, fare: calFare(trips, opt), usePass: false, transitForced: opt.transit };
   };
   
   const getAlternativeItinerary = (original, opt) => {

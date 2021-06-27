@@ -4,7 +4,7 @@
   app.CONF = {};
   
   app.CONF.source = 'https://github.com/ITKaiOL/mtrdp';
-  app.CONF.date = '2021-02-27';
+  app.CONF.date = '2021-06-27';
   
   app.CONF.files = {
     stations: 'data/mtr_lines_and_stations.csv',
@@ -13,7 +13,7 @@
   
   // support these lines only
   app.CONF.lines = [ 
-    'WRL', 'TWL', 'KTL', 'ISL', 'EAL', 'TML', 'TKL', 'TCL', 'DRL', 'SIL' 
+    'TML', 'TWL', 'KTL', 'ISL', 'EAL', 'TKL', 'TCL', 'DRL', 'SIL' 
   ];
   
   // special interchange

@@ -141,18 +141,48 @@
 "TML","UT","HIK","90","顯徑","Hin Keng",10.00
 "TML","UT","DIH","11","鑽石山","Diamond Hill",11.00
 "TML","UT","KAT","91","啟德","Kai Tak",12.00
-"TML","DT","KAT","91","啟德","Kai Tak",1.00
-"TML","DT","DIH","11","鑽石山","Diamond Hill",2.00
-"TML","DT","HIK","90","顯徑","Hin Keng",3.00
-"TML","DT","TAW","67","大圍","Tai Wai",4.00
-"TML","DT","CKT","96","車公廟","Che Kung Temple",5.00
-"TML","DT","STW","97","沙田圍","Sha Tin Wai",6.00
-"TML","DT","CIO","98","第一城","City One",7.00
-"TML","DT","SHM","99","石門","Shek Mun",8.00
-"TML","DT","TSH","100","大水坑","Tai Shui Hang",9.00
-"TML","DT","HEO","101","恆安","Heng On",10.00
-"TML","DT","MOS","102","馬鞍山","Ma On Shan",11.00
-"TML","DT","WKS","103","烏溪沙","Wu Kai Sha",12.00
+"TML","UT","SUW","92","宋皇臺","Sung Wong Toi",13.00
+"TML","UT","TKW","93","土瓜灣","To Kwa Wan",14.00
+"TML","UT","HOM","84","何文田","Ho Man Tin",15.00
+"TML","UT","HUH","64","紅磡","Hung Hom",16.00
+"TML","UT","ETS","80","尖東","East Tsim Sha Tsui",17.00
+"TML","UT","AUS","111","柯士甸","Austin",18.00
+"TML","UT","NAC","53","南昌","Nam Cheong",19.00
+"TML","UT","MEF","20","美孚","Mei Foo",20.00
+"TML","UT","TWW","114","荃灣西","Tsuen Wan West",21.00
+"TML","UT","KSR","115","錦上路","Kam Sheung Road",22.00
+"TML","UT","YUL","116","元朗","Yuen Long",23.00
+"TML","UT","LOP","117","朗屏","Long Ping",24.00
+"TML","UT","TIS","118","天水圍","Tin Shui Wai",25.00
+"TML","UT","SIH","119","兆康","Siu Hong",26.00
+"TML","UT","TUM","120","屯門","Tuen Mun",27.00
+"TML","DT","TUM","120","屯門","Tuen Mun",1.00
+"TML","DT","SIH","119","兆康","Siu Hong",2.00
+"TML","DT","TIS","118","天水圍","Tin Shui Wai",3.00
+"TML","DT","LOP","117","朗屏","Long Ping",4.00
+"TML","DT","YUL","116","元朗","Yuen Long",5.00
+"TML","DT","KSR","115","錦上路","Kam Sheung Road",6.00
+"TML","DT","TWW","114","荃灣西","Tsuen Wan West",7.00
+"TML","DT","MEF","20","美孚","Mei Foo",8.00
+"TML","DT","NAC","53","南昌","Nam Cheong",9.00
+"TML","DT","AUS","111","柯士甸","Austin",10.00
+"TML","DT","ETS","80","尖東","East Tsim Sha Tsui",11.00
+"TML","DT","HUH","64","紅磡","Hung Hom",12.00
+"TML","DT","HOM","84","何文田","Ho Man Tin",13.00
+"TML","DT","TKW","93","土瓜灣","To Kwa Wan",14.00
+"TML","DT","SUW","92","宋皇臺","Sung Wong Toi",15.00
+"TML","DT","KAT","91","啟德","Kai Tak",16.00
+"TML","DT","DIH","11","鑽石山","Diamond Hill",17.00
+"TML","DT","HIK","90","顯徑","Hin Keng",18.00
+"TML","DT","TAW","67","大圍","Tai Wai",19.00
+"TML","DT","CKT","96","車公廟","Che Kung Temple",20.00
+"TML","DT","STW","97","沙田圍","Sha Tin Wai",21.00
+"TML","DT","CIO","98","第一城","City One",22.00
+"TML","DT","SHM","99","石門","Shek Mun",23.00
+"TML","DT","TSH","100","大水坑","Tai Shui Hang",24.00
+"TML","DT","HEO","101","恆安","Heng On",25.00
+"TML","DT","MOS","102","馬鞍山","Ma On Shan",26.00
+"TML","DT","WKS","103","烏溪沙","Wu Kai Sha",27.00
 "TCL","DT","TUC","43","東涌","Tung Chung",1.00
 "TCL","DT","SUN","54","欣澳","Sunny Bay",2.00
 "TCL","DT","TSY","42","青衣","Tsing Yi",3.00
@@ -221,30 +251,6 @@
 "TWL","UT","KWH","23","葵興","Kwai Hing",14.00
 "TWL","UT","TWH","24","大窩口","Tai Wo Hau",15.00
 "TWL","UT","TSW","25","荃灣","Tsuen Wan",16.00
-"WRL","DT","TUM","120","屯門","Tuen Mun",1.00
-"WRL","DT","SIH","119","兆康","Siu Hong",2.00
-"WRL","DT","TIS","118","天水圍","Tin Shui Wai",3.00
-"WRL","DT","LOP","117","朗屏","Long Ping",4.00
-"WRL","DT","YUL","116","元朗","Yuen Long",5.00
-"WRL","DT","KSR","115","錦上路","Kam Sheung Road",6.00
-"WRL","DT","TWW","114","荃灣西","Tsuen Wan West",7.00
-"WRL","DT","MEF","20","美孚","Mei Foo",8.00
-"WRL","DT","NAC","53","南昌","Nam Cheong",9.00
-"WRL","DT","AUS","111","柯士甸","Austin",10.00
-"WRL","DT","ETS","80","尖東","East Tsim Sha Tsui",11.00
-"WRL","DT","HUH","64","紅磡","Hung Hom",12.00
-"WRL","UT","HUH","64","紅磡","Hung Hom",1.00
-"WRL","UT","ETS","80","尖東","East Tsim Sha Tsui",2.00
-"WRL","UT","AUS","111","柯士甸","Austin",3.00
-"WRL","UT","NAC","53","南昌","Nam Cheong",4.00
-"WRL","UT","MEF","20","美孚","Mei Foo",5.00
-"WRL","UT","TWW","114","荃灣西","Tsuen Wan West",6.00
-"WRL","UT","KSR","115","錦上路","Kam Sheung Road",7.00
-"WRL","UT","YUL","116","元朗","Yuen Long",8.00
-"WRL","UT","LOP","117","朗屏","Long Ping",9.00
-"WRL","UT","TIS","118","天水圍","Tin Shui Wai",10.00
-"WRL","UT","SIH","119","兆康","Siu Hong",11.00
-"WRL","UT","TUM","120","屯門","Tuen Mun",12.00
 "SIL","UT","ADM","2","金鐘","Admiralty",1.00
 "SIL","UT","OCP","86","海洋公園","Ocean Park",2.00
 "SIL","UT","WCH","87","黃竹坑","Wong Chuk Hang",3.00

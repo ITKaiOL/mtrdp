@@ -6,7 +6,7 @@
       'early-bird': 'Early Bird (end of journey)(35%)',
       'early-bird-tst': 'Early Bird (b/f TST interchange)',
       'early-bird-dp': 'Early Bird (b/f using day pass)',
-      'discount-5pc': '5% Fare Savings',
+      'discount-5pc2': '5% Fare Savings (3.8% after fare adjustment)',
       'fare-saver': 'Fare Saver ($2)',
       'day-pass-10-1': 'Day pass: Return 10 get 1 free',
       'transit-choice': 'Consider TST/E.TST transit'
@@ -33,7 +33,7 @@
       'early-bird': '早晨折扣 (尾程)(六五折)',
       'early-bird-tst': '早晨折扣 (尖沙咀站轉乘前)',
       'early-bird-dp': '早晨折扣 (轉用全日通前)',
-      'discount-5pc': '節省車費 5%',
+      'discount-5pc2': '節省車費 5% (調整後為 3.8%)',
       'fare-saver': '港鐵特惠站 ($2)',
       'day-pass-10-1': '全日通: 十換一優惠',
       'transit-choice': '考慮尖沙咀/尖東站轉乘'

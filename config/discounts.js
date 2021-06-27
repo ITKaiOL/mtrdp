@@ -15,6 +15,7 @@
     DIS_EARLY_BIRD_DP:    3, // early bird discount (b/f day pass)
     DIS_DAY_PASS_TEN:    10, // day pass 10 for 1
     DIS_CEIL_FIVE:      105, // 5% discount 
+    DIS_CEIL_FIVE2:     1038, // 5% discount -> 3.8%
     DIS_MINUS_TWO:      202, // $2 discount
     DIS_SHOW_TRANSIT:   301, // show extra transit choice
   };
@@ -107,14 +108,22 @@
     getPassDiscount: (fare) => fare * DIS_DAY_PASS_TEN_RATE
   };
   
-  const DIS_CEIL_FIVE_RATE = 0.05;
+/*  const DIS_CEIL_FIVE_RATE = 0.05;
   disDefs[disCodes.DIS_CEIL_FIVE] = {
     type: disTypes.DISTYPE_ALL_TRIP,
     name: 'discount-5pc',
     default: true,
     getDiscount: discount_ceiling(DIS_CEIL_FIVE_RATE)
+  };*/
+
+  const DIS_CEIL_FIVE_RATE_2 = 0.038;
+  disDefs[disCodes.DIS_CEIL_FIVE2] = {
+    type: disTypes.DISTYPE_ALL_TRIP,
+    name: 'discount-5pc2',
+    default: true,
+    getDiscount: discount_ceiling(DIS_CEIL_FIVE_RATE_2)
   };
-  
+    
   disDefs[disCodes.DIS_MINUS_TWO] = {
     type: disTypes.DISTYPE_PER_TRIP,
     name: 'fare-saver',

@@ -33,6 +33,7 @@
     
     const fareData = await collectFares();
     calculateFareDist(fareData);
+
   };
   
   // collect fares of stations pairs
@@ -64,6 +65,7 @@
     stations.forEach( s1=> {
       nodes['m-'+s1] = s1;
       edges['m-'+s1] = {};
+      searchCache['m-'+s1] = {};
     });
     
     // join major node to station/line/dir node with zero cost
@@ -73,9 +75,12 @@
       if(lineDirs.hasOwnProperty(lineDir)) {
         lineDirs[lineDir].forEach(s1 => {
           nodes[lineDir+'-'+s1] = s1;
+          
           edges['m-'+s1][lineDir+'-'+s1] = 0;
           edges[lineDir+'-'+s1] = {};
           edges[lineDir+'-'+s1]['m-'+s1] = minFare; // penalty for interchange
+
+          searchCache[lineDir+'-'+s1] = {};
         });
         for(let s = 0; s < lineDirs[lineDir].length-1; ++s) {
           const s1 = lineDirs[lineDir][s];
@@ -104,92 +109,119 @@
         }
       }
     }
+
+    // Make sure triangular distance is valid 
+    // first make a copy of fares
+    const fixedFares = {};
+    stations.forEach( s1=> {
+      fixedFares[s1] = {};
+      stations.forEach( s2=> {
+        fixedFares[s1][s2] = fares[s1][s2];
+      })
+    });
+
+    // next, fix triangular distance property
+    stations.forEach( s1=> {
+      stations.forEach( s2=> {
+        if(s1 !== s2) {
+          stations.forEach( s3 => {
+            if(s1 !== s3 && s2 !== s3) {
+              if(fares[s1][s3] + fares[s3][s2] < fixedFares[s1][s2]) {
+                fixedFares[s1][s2] = fares[s1][s3] + fares[s3][s2];
+              }
+            }
+          });
+        }
+      });
+    });    
     
+    // finally, make it symmetrical
+    stations.forEach( s1=> {
+      stations.forEach( s2=> {
+        if(s1 <= s2) {
+          const fare = Math.min(fares[s1][s2], fares[s2][s1]);
+          fixedFares[s1][s2] = fare;
+          fixedFares[s2][s1] = fare;
+        }
+      })
+    })
+
+        
     // calculate fare distance by shortest path search
     stations.forEach( s1=> {
       fareDist[s1] = {};
       stations.forEach( s2=> {
         if(s1 === s2) {
           fareDist[s1][s2] = 0;
-        } else {          
-          fareDist[s1][s2] = aStarSearch(s1, s2);
+        } else {  
+          fareDist[s1][s2] = aStarSearch(s1, s2, fixedFares);
         }
       });
     });    
   };
   
   // aStarSearch on directed graph from station s1 to s2
-  // using fare as heuristics
-  const aStarSearch = (s1, s2) => {
+  // using h as heuristics
+  const aStarSearch = (s1, s2, h) => {
 
     const history = {};
     const n1 = 'm-'+s1;
     const n2 = 'm-'+s2;
-    const pQueue = [{node:'m-'+s1, cost: 0, est: fares[s1][s2], path: [n1]}];
+    const pQueue = [{node:'m-'+s1, cost: 0, est: h[s1][s2], path: [n1]}];
     history[n1] = 0;
     let minCost = Infinity;
     let minPath = null;
     while(pQueue.length > 0) {
       const state = pQueue.pop();
+
       for(const n3 in edges[state.node]) {
         if(edges[state.node].hasOwnProperty(n3)) {
           let path = state.path.concat([n3]);
+          // bound cost by fare so that heuristics is always optimal
           let pathCost = parseFloat((state.cost+edges[state.node][n3]).toFixed(3));
           // pruning by cost
           if(!history.hasOwnProperty(n3) || pathCost < history[n3]) {
             history[n3] = pathCost;
-            const pathEst = parseFloat((pathCost + fares[nodes[n3]][s2]).toFixed(3));
-
+            const pathEst = parseFloat((pathCost + h[nodes[n3]][s2]).toFixed(3));
             if(n3 === n2) { // reached goal, check minimum cost
               if(pathCost < minCost) {
                 minCost = pathCost;
                 minPath = path;
               }
             } else  { 
-              const candidates = [];
-              let cacheCost = Infinity;
               
-              // add cache to queue
-              if(searchCache.hasOwnProperty(n3) && 
-                      searchCache[n3].hasOwnProperty(n2)) { // cache available
-                if(pathCost + searchCache[n3][n2].cost < minCost) {
-                  const cachePath = path.concat(searchCache[n3][n2].path.slice(1));                
-                  cacheCost = pathCost + searchCache[n3][n2].cost;
-                  // add to queue as this may not be the best yet
-                  candidates.push({node: n2, cost: cacheCost, est: cacheCost, path: cachePath });
+              // check if there is a cache to be used
+              if(searchCache[n3].hasOwnProperty(n2)) { // cache available
+                const cachePath = path.concat(searchCache[n3][n2].path.slice(1));                
+                const cacheCost = pathCost + searchCache[n3][n2].cost;
+                if(cacheCost < minCost) {
+                  minCost = cacheCost;
+                  minPath = cachePath;
                 }
-              }
-              
-              // add subpath to queue if cost may be better than cache cost
-              if(pathEst < minCost && pathEst < cacheCost) { // add only if cost less than minimum cost
-                candidates.push({node: n3, cost: pathCost, est: pathEst, path: state.path.concat([n3])});
-              }
-
-              // add candidates to priority queue
-              candidates.forEach(candidate => {
+              } else if(pathEst < minCost) { // add only if cost less than minimum cost
                 let i = 0;
-                while(i<pQueue.length && pQueue[i].est > candidate.est) {
+                while(i<pQueue.length && pQueue[i].est > pathEst) {
                   ++i;
                 }
-                pQueue.splice(i, 0, candidate);              
-              });
+                pQueue.splice(i, 0, {node: n3, cost: pathCost, est: pathEst, path: state.path.concat([n3])});
+              }
             }
           }
         }
       }
+      
     }
     
     // add all subpath ends with the target to cache
     let pCost = 0
     for(let p = minPath.length-2; p >= 0; --p) {
       pCost += edges[minPath[p]][minPath[p+1]];
-      if(!searchCache.hasOwnProperty(minPath[p])) {
-        searchCache[minPath[p]] = {};
-      }
+
       if(!searchCache[minPath[p]].hasOwnProperty(n2)) {
         searchCache[minPath[p]][n2] = { cost: pCost, path: minPath.slice(p) };
       }
     }
+
     return minCost;
   };
   

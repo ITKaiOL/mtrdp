@@ -115,8 +115,8 @@ window.MTRDP = {};
   const initApp = async () => {    
     await app.load('VIEW');
     app.VIEW.hideLoading();
-  }
-
+  }  
+  
   initApp();
   
 })(window.MTRDP);

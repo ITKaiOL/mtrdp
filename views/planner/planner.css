@@ -71,7 +71,8 @@ div[data-section="planner"] .results > div {
   justify-content: flex-start;
   align-items: flex-start;
 }
-div[data-section="planner"] .results .option {
+div[data-section="planner"] .results .option.best .header {
+  font-weight: bold;
 }
 div[data-section="planner"] .results .option .route-legs {
   display: flex;
@@ -82,10 +83,10 @@ div[data-section="planner"] .results .option .route-legs {
   font-size: 1.2em;
 }
 
-div[data-section="planner"] .results > div.octopus {
+div[data-section="planner"] .results > div.noPass {
   background-color: rgb(255, 204, 204);
 }
-div[data-section="planner"] .results > div.octopus div.directions {
+div[data-section="planner"] .results div.directions {
   padding: 0.5em 0;
   font-size: 1.2em;
   display: flex;
@@ -93,14 +94,14 @@ div[data-section="planner"] .results > div.octopus div.directions {
   align-items: center;
   justify-content: flex-start;
 }
-div[data-section="planner"] .results > div.octopus div.directions .material-icons {
+div[data-section="planner"] .results div.directions .material-icons {
   font-size: 1em;
 }
 
-div[data-section="planner"] .results > div.daypass {
+div[data-section="planner"] .results > div.usePass {
   background-color: rgb(255, 255, 153);
 }
-div[data-section="planner"] .results > div.daypass .buy-pass {
+div[data-section="planner"] .results > div.usePass .buy-pass {
   padding: 0 0.5em;
   margin: 0.25em;
   border-radius: 1em;

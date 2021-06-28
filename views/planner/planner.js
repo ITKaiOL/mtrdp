@@ -60,8 +60,8 @@
       ]),
       deleteDiv: app.DOM.create('div', { className: 'remove', style: 'display: none' } ),
       resultDivs: {
-        octopus: app.DOM.create('div', { className: 'octopus' }),
-        dayPass: app.DOM.create('div', { className: 'daypass' }),
+        noPass: app.DOM.create('div', { className: 'noPass' }),
+        usePass: app.DOM.create('div', { className: 'usePass' }),
         subtotal: app.DOM.create('div', { className: 'subtotal' }),
       }
     };
@@ -92,8 +92,8 @@
       optionsDiv
     ]));
     route.root.appendChild(app.DOM.create('div', { className: 'results' }, [
-      route.resultDivs.octopus,
-      route.resultDivs.dayPass,
+      route.resultDivs.noPass,
+      route.resultDivs.usePass,
       route.resultDivs.subtotal
     ]));
         
@@ -237,12 +237,12 @@
       });
 
       let passLegCount = 0;
-      itin.forEach(leg => {
-        if(leg.usePass && leg.fare < itinCost.noPass.max) {
-          leg.idx = passLegCount + 1;
-          itinCost.usePass.min = Math.min(itinCost.usePass.min, leg.fare);
-          itinCost.usePass.max = Math.max(itinCost.usePass.max, leg.fare);
-          validItin.push(leg);
+      itin.forEach(legs => {
+        if(legs.usePass && legs.fare < itinCost.noPass.max) {
+          legs.idx = passLegCount + 1;
+          itinCost.usePass.min = Math.min(itinCost.usePass.min, legs.fare);
+          itinCost.usePass.max = Math.max(itinCost.usePass.max, legs.fare);
+          validItin.push(legs);
           passLegCount++;
         }
       });
@@ -250,18 +250,18 @@
       if(validItin.length > 0) { // if valid
         
         // reset descriptions
-        routes[idx].resultDivs.octopus.innerHTML = '';
-        routes[idx].resultDivs.dayPass.innerHTML = '';
+        routes[idx].resultDivs.noPass.innerHTML = '';
+        routes[idx].resultDivs.usePass.innerHTML = '';
         routes[idx].resultDivs.subtotal.innerHTML = '';
-        routes[idx].resultDivs.dayPass.appendChild(
+        routes[idx].resultDivs.usePass.appendChild(
           app.DOM.create('div', {className: 'buy-pass'}, [
             '* ',
             app.LANG.create('Day Pass', 'discount'),
             ' *'
           ])
         );
-        routes[idx].resultDivs.octopus.style.display = 'flex';
-        routes[idx].resultDivs.dayPass.style.display = 'flex';
+        routes[idx].resultDivs.noPass.style.display = 'flex';
+        routes[idx].resultDivs.usePass.style.display = 'flex';
         routes[idx].resultDivs.subtotal.style.display = 'flex';
         
         // cost consolidation
@@ -275,7 +275,7 @@
               app.LANG.create('Day pass not applicable', 'planner')
             ])
           ]);    
-          routes[idx].resultDivs.dayPass.appendChild(descBox);
+          routes[idx].resultDivs.usePass.appendChild(descBox);
           cost.usePass.min += itinCost.noPass.min;
           cost.usePass.max += itinCost.noPass.max;
         } else {
@@ -287,33 +287,73 @@
         cost.noPass.min = parseFloat(cost.noPass.min.toFixed(3));
         cost.noPass.max = parseFloat(cost.noPass.max.toFixed(3));
         
+        // keep list of routes to show directions for
+        const directionRoutes = { noPass: [], usePass: [] };
+        const directionHistory = { noPass: {}, usePass: {} };
+        // function to add route if history not exists
+        const addRoute = (from, to, usePass) => {
+          const type = usePass?'usePass':'noPass';
+          if(!directionHistory[type].hasOwnProperty(from)) {
+            directionHistory[type][from] = {};
+          }
+          if(!directionHistory[type][from].hasOwnProperty(to)) {
+            directionHistory[type][from][to] = true;
+            directionRoutes[type].push({ from: from, to: to });
+          }
+        };
+        
         // fill in descriptions
-        validItin.forEach(leg => {
+        validItin.forEach(legs => {
+          const type = legs.usePass?'usePass':'noPass';
           const descBox = app.DOM.create('div', { className: 'option' });
           
-          if(!leg.usePass) {
-            routes[idx].resultDivs.octopus.appendChild(descBox);
-            if(leg.fare === itinCost.noPass.min) {
-              descBox.classList.add('best');
-            }
-          } else {
-            routes[idx].resultDivs.dayPass.appendChild(descBox);
-            if(leg.fare === itinCost.usePass.min) {
-              descBox.classList.add('best');
-            }
+          routes[idx].resultDivs[type].appendChild(descBox);
+          if(legs.fare === itinCost[type].min) {
+            descBox.classList.add('best');
           }
           
           const header = app.DOM.create('div', {}, [
             app.DOM.create('span', { className: 'header'} , [
               app.LANG.create('Option', 'planner'),
-              ' '+ leg.idx + ': $' + leg.fare.toFixed(1)
+              ' '+ legs.idx + ': $' + legs.fare.toFixed(1)
             ])
           ]);
           
           descBox.appendChild(header);
           descBox.appendChild(app.DOM.create('div', { className: 'route-legs'}, 
-            app.TripWidget.create(leg.itin)
+            app.TripWidget.create(legs.itin)
           ));
+          
+          // add route for directions
+          let routeFrom = null;
+          let routeTo = null;
+          let lastUsePass = true;
+          legs.itin.forEach(leg => {                  
+            if(leg.usePass !== lastUsePass) {
+              lastUsePass = leg.usePass;
+              if(leg.usePass) {
+                // generate route if exist
+                if(routeFrom !== null) {
+                  addRoute(routeFrom, leg.from, legs.usePass);
+                  routeFrom = null;
+                  routeTo = null;
+                }
+              } else { // start of no pass route
+                if(routeFrom === null) { // use current "From" if not exists
+                  routeFrom = leg.from;
+                }
+                routeTo = leg.to; // keep this "to", always
+              }
+            } else if(leg.usePass) {
+              routeFrom = leg.to; // still using pass, put "to" as next "from"
+            } else {
+              routeTo = leg.to; // still no pass, keep this "to" 
+            }
+          });
+          // if there is still a "to", add to route
+          if(routeTo !== null) {
+            addRoute(routeFrom, routeTo, legs.usePass);
+          }
         });
         
         // subtotal
@@ -333,23 +373,25 @@
         );
         
         // links to Google maps
-        const stationFrom = routes[idx].selectors.from.getValue();
-        const stationTo = routes[idx].selectors.to.getValue();
-        const tripElement = app.TripWidget.create([
-          { from: stationFrom, to: stationTo, 
-            link: app.MAPSLINK.get(
-              app.LINES.getInfo(stationFrom)['nameEN'], 
-              app.LINES.getInfo(stationTo)['nameEN']
-            )
-          },
-        ]);
-        routes[idx].resultDivs.octopus.appendChild(
-          app.DOM.create('div', { className: 'directions' }, [
-            app.DOM.matIcon('directions'),
-            app.LANG.create('Directions via Google Maps', 'overview'),
-            ': '
-          ].concat(tripElement)
-        ));
+        ['noPass','usePass'].forEach(type=> {
+          const tripElement = app.TripWidget.create(
+            directionRoutes[type].map(route=>{
+              const link = app.MAPSLINK.get(
+                app.LINES.getInfo(route.from)['nameEN'], 
+                app.LINES.getInfo(route.to)['nameEN']
+              );
+              return { from: route.from, to: route.to, link: link };
+            })
+          );
+          routes[idx].resultDivs[type].appendChild(
+            app.DOM.create('div', { className: 'directions' }, [
+              app.DOM.matIcon('directions'),
+              app.LANG.create('Directions via Google Maps', 'overview'),
+              ': '
+            ].concat(tripElement)
+          ));
+        });
+        
       }             
     });
 

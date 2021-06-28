@@ -111,6 +111,7 @@
         genResultDiv();
       }
       
+      // calculate pass cost
       let passCost = app.CONF.dayPass.price;
       for(const disCode in app.DIS.discounts) {
         if(app.DIS.discounts.hasOwnProperty(disCode)) {
@@ -218,7 +219,7 @@
             minCostNoPass = true;
           }
         });
-        
+
         descDivs[itin.station].forEach(descDiv => {
           descDiv.innerHTML = '';
           descDiv.parentNode.classList.remove('daypass-maybe');
@@ -232,41 +233,87 @@
             } else if(costs.usePass.count > 0 && costs.usePass.min  < costs.noPass.max) {
               descDiv.parentNode.classList.add('daypass-maybe');  
             }
-
+            
+            // keep list of routes to show directions for
+            const directionRoutes = [];
+            const directionHistory = {};
+            // function to add route if history not exists
+            const addRoute = (from, to, idx) => {
+              if(!directionHistory.hasOwnProperty(from)) {
+                directionHistory[from] = {};
+              }
+              if(!directionHistory[from].hasOwnProperty(to)) {
+                directionHistory[from][to] = true;
+                while(idx >= directionRoutes.length) {
+                  directionRoutes.push([]);
+                }
+                directionRoutes[idx].push({ from: from, to: to });
+              }
+            };
             options.forEach((choice, idx) => {
               if(choice.cost === minCost && minCostNoPass !== choice.usePass) {
                 choice.best = true;
               }
+              ['out','in'].forEach(dir => {
+                let routeFrom = null;
+                let routeTo = null;
+                let lastUsePass = true;
+                choice[dir].itin.forEach(leg => {                  
+                  if(leg.usePass !== lastUsePass) {
+                    lastUsePass = leg.usePass;
+                    if(leg.usePass) {
+                      // generate route if exist
+                      if(routeFrom !== null) {
+                        addRoute(routeFrom, leg.from, idx);
+                        routeFrom = null;
+                        routeTo = null;
+                      }
+                    } else { // start of no pass route
+                      if(routeFrom === null) { // use current "From" if not exists
+                        routeFrom = leg.from;
+                      }
+                      routeTo = leg.to; // keep this "to", always
+                    }
+                  } else if(leg.usePass) {
+                    routeFrom = leg.to; // still using pass, put "to" as next "from"
+                  } else {
+                    routeTo = leg.to; // still no pass, keep this "to" 
+                  }
+                });
+                
+                // if there is still a "to", add to route
+                if(routeTo !== null) {
+                  addRoute(routeFrom, routeTo, idx);
+                }
+              });
+              
               genOptionDesc(descDiv, idx+1, choice);
             });
             
-            // add directions links
-            const links = {
-              out: app.MAPSLINK.get(
-                app.LINES.getInfo(currOptions.station)['nameEN'], 
-                app.LINES.getInfo(itin.station)['nameEN']
-              ),
-              in: app.MAPSLINK.get(
-                app.LINES.getInfo(itin.station)['nameEN'], 
-                app.LINES.getInfo(currOptions.station)['nameEN']
-              )
-            };
-            const tripElements = app.TripWidget.create([
-              { from: currOptions.station, to: itin.station, link: links.out },
-              { from: itin.station, to: currOptions.station, link: links.in }
-            ]);
+            const tripElements = 
+              directionRoutes.map(routes => 
+                app.DOM.create('div', { className: 'dir-body' }, 
+                  app.TripWidget.create(
+                    routes.map(route => {
+                      const link = app.MAPSLINK.get(
+                        app.LINES.getInfo(route.from)['nameEN'], 
+                        app.LINES.getInfo(route.to)['nameEN']
+                      );
+                      return { from: route.from, to: route.to, link: link };
+                    })
+                  )
+                )
+              );
+          
             descDiv.appendChild(app.DOM.create('div', { className: 'directions' }, [
               app.DOM.create('div', { className: 'dir-header' }, [
                 app.DOM.matIcon('directions'),
                 app.LANG.create('Directions via Google Maps', 'overview')
-              ]),
-              app.DOM.create('div', { className: 'dir-body' }, tripElements),
-            ]));
+              ])].concat(tripElements)
+            ));
           }
-
         });
       });
-      
     }
   };
   

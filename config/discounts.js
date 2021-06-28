@@ -10,14 +10,14 @@
   
   // discount codes
   const disCodes = {
-    DIS_EARLY_BIRD:       1, // early bird discount
-    DIS_EARLY_BIRD_TST:   2, // early bird discount (b/f TST interchange)
-    DIS_EARLY_BIRD_DP:    3, // early bird discount (b/f day pass)
-    DIS_DAY_PASS_TEN:    10, // day pass 10 for 1
-    DIS_CEIL_FIVE:      105, // 5% discount 
-    DIS_CEIL_FIVE_2:    103.8, // 5% discount -> 3.8%
-    DIS_MINUS_TWO:      202, // $2 discount
-    DIS_SHOW_TRANSIT:   301, // show extra transit choice
+    DIS_EARLY_BIRD:        1, // early bird discount
+    DIS_EARLY_BIRD_TST:    2, // early bird discount (b/f TST interchange)
+    DIS_EARLY_BIRD_DP:     3, // early bird discount (b/f day pass)
+    DIS_DAY_PASS_TEN:     10, // day pass 10 for 1
+    DIS_CEIL_FIVE:      1050, // 5% discount 
+    DIS_CEIL_FIVE_2:    1038, // 5% discount -> 3.8%
+    DIS_MINUS_TWO:      2002, // $2 discount
+    DIS_SHOW_TRANSIT:   3001, // show extra transit choice
   };
   
   // discount utilities

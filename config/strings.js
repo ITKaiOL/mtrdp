@@ -33,7 +33,7 @@
       'early-bird': '早晨折扣 (尾程)(六五折)',
       'early-bird-tst': '早晨折扣 (尖沙咀站轉乘前)',
       'early-bird-dp': '早晨折扣 (轉用全日通前)',
-      'discount-5pc2': '節省車費 5% (調整後為 3.8%)',
+      'discount-5pc-2': '節省車費 5% (車費調整後實為 3.8%)',
       'fare-saver': '港鐵特惠站 ($2)',
       'day-pass-10-1': '全日通: 十換一優惠',
       'transit-choice': '考慮尖沙咀/尖東站轉乘'

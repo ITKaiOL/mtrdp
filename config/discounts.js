@@ -30,8 +30,8 @@
   // discount details
   const DIS_EARLY_BIRD_RATE = 0.35;
   const DIS_EARLY_BIRD_STATIONS = [
-    // Hung Hom to Kowloon Tong
-    '64', '65', '8',
+    // Admiralty to Kowloon Tong
+    '2', '94', '64', '65', '8',
     // Sheung Wan to Tai koo
     '26', '1', '2', '27', '28', '29', '30', '31', '32', '33',
     // Whampo to Yau Tong
@@ -42,10 +42,8 @@
     '1', '2', '3', '4', '5', '6', '16', '17', '18', '19', '20',
     // Hong Kong to Nam Cheong
     '39', '40', '41', '53',
-    // Diamond hill to Kai Tak
-    '11', '91',
-    // Hung Hom to Mei Foo
-    '64', '80', '111', '53', '20',
+    // Diamond hill to Mei Foo
+    '11', '91', '92', '93', '84', '64', '80', '111', '53', '20',
     // North Point to Yau Tong
     '31', '32', '48',
   ];

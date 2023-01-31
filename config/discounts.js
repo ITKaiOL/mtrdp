@@ -116,7 +116,8 @@
     getDiscount: discount_ceiling(DIS_CEIL_FIVE_RATE)
   };
 */
-
+/*
+  // Gone after Feb 1, 2023
   const DIS_CEIL_FIVE_RATE_2 = 0.038;
   disDefs[disCodes.DIS_CEIL_FIVE_2] = {
     type: disTypes.DISTYPE_ALL_TRIP,
@@ -124,7 +125,7 @@
     default: true,
     getDiscount: discount_ceiling(DIS_CEIL_FIVE_RATE_2)
   };
-    
+*/    
   disDefs[disCodes.DIS_MINUS_TWO] = {
     type: disTypes.DISTYPE_PER_TRIP,
     name: 'fare-saver',

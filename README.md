@@ -7,7 +7,6 @@ Version 2.0
 
 數據來自 data.gov.hk: <https://data.gov.hk/tc-data/dataset/mtr-data-routes-fares-barrier-free-facilities>
 
-- 節省車費 5% <http://www.mtr.com.hk/en/customer/main/octopus_qr_rebate.html>
 - 早鳥優惠 <http://www.mtr.com.hk/ch/customer/main/early_bird.html>
 - 港鐵特惠站 <http://www.mtr.com.hk/ch/customer/tickets/fare_saver.html>
 - 全日通十換一優惠 <http://www.mtr.com.hk/archive/ch/tickets/mp_extra/TUMNACDP.pdf>
@@ -22,7 +21,6 @@ Day pass: <http://www.mtr.com.hk/en/customer/tickets/day_pass.html>
 
 Using data from data.gov.hk: <https://data.gov.hk/tc-data/dataset/mtr-data-routes-fares-barrier-free-facilities>
 
-- 5% Fare Savings  <http://www.mtr.com.hk/en/customer/main/octopus_qr_rebate.html>
 - Early-bird discount <http://www.mtr.com.hk/en/customer/main/early_bird.html>
 - Fare Savers <http://www.mtr.com.hk/en/customer/tickets/fare_saver.html>
 - Day pass Return 10 Get 1 Free Promotion <http://www.mtr.com.hk/archive/en/tickets/mp_extra/TUMNACDP.pdf>

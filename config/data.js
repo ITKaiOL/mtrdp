@@ -2,13 +2,20 @@
 (function(app) {
   
   app.CONF = {};
-  
   app.CONF.source = 'https://github.com/ITKaiOL/mtrdp';
   app.CONF.date = '2024-06-13';
+  app.CONF.newFareDate = '2024-06-30';
+  app.CONF.hasNewFare = new Date() < new Date(app.CONF.newFareDate);
+  app.CONF.useNew = false;
+  if((typeof _useNew != "undefined" && _useNew)) {
+    app.CONF.useNew = true;
+  } else if((typeof _useNew == "undefined" || !_useNew) && app.CONF.newFareDate && new Date() >= new Date(app.CONF.newFareDate)) {
+    app.CONF.useNew = true;
+  }
   
   app.CONF.files = {
     stations: 'data/mtr_lines_and_stations.csv',
-    fares: 'data/mtr_lines_fares.csv'
+    fares: app.CONF.useNew?'data/mtr_lines_fares_tmpnew.csv':'data/mtr_lines_fares.csv'
   };
   
   // support these lines only

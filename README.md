@@ -1,11 +1,12 @@
 # 全日通優惠分析 Day-pass Analyser
-Version 2.0
+Version 2.1
 
 ## <https://itkaiol.github.io/mtrdp/>
 
 全日通: <http://www.mtr.com.hk/ch/customer/tickets/day_pass.html>
 
 數據來自 data.gov.hk: <https://data.gov.hk/tc-data/dataset/mtr-data-routes-fares-barrier-free-facilities>
+2024-06-30 新車資取自: <https://www.mtr.com.hk/ch/customer/tickets/octopus_fares.html>
 
 - 早鳥優惠 <http://www.mtr.com.hk/ch/customer/main/early_bird.html>
 - 港鐵特惠站 <http://www.mtr.com.hk/ch/customer/tickets/fare_saver.html>
@@ -20,6 +21,7 @@ Version 2.0
 Day pass: <http://www.mtr.com.hk/en/customer/tickets/day_pass.html>
 
 Using data from data.gov.hk: <https://data.gov.hk/tc-data/dataset/mtr-data-routes-fares-barrier-free-facilities>
+New fare on 2024-06-30 extracted from: <https://www.mtr.com.hk/ch/customer/tickets/octopus_fares.html>
 
 - Early-bird discount <http://www.mtr.com.hk/en/customer/main/early_bird.html>
 - Fare Savers <http://www.mtr.com.hk/en/customer/tickets/fare_saver.html>

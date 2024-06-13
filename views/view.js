@@ -29,11 +29,25 @@
   
   // initialize basic UI
   const initView = async () => {
-    app.DOM.get('title').appendChild(app.LANG.create('Day-pass Analyser', 'title'))
+    app.DOM.get('title').appendChild(app.LANG.create('Day-pass Analyser', 'title'));
+    app.DOM.get('title').appendChild(app.DOM.create('span', null, [' (']));
+    app.DOM.get('title').appendChild(app.LANG.create('with octopus', 'title'))
+    app.DOM.get('title').appendChild(app.DOM.create('span', null, [' )']));
     app.DOM.get('title').appendChild(app.DOM.create('a', { href: 'https://github.com/ITKaiOL/mtrdp#readme' }, [
       app.DOM.matIcon('info'),
       app.LANG.create('Info', 'title')
     ]));
+    if(!app.CONF.useNew) {
+      app.DOM.get('title').appendChild(app.DOM.create('a', { href: 'index_new.html' }, [
+        app.DOM.matIcon('new_releases'),
+        app.LANG.create('Click to use 2024-06-30 new fares', 'title')
+      ]));
+    } else if(app.CONF.hasNewFare) {
+      app.DOM.get('title').appendChild(app.DOM.create('a', { href: 'index.html' }, [
+        app.DOM.matIcon('new_releases'),
+        app.LANG.create('Click to use current fares', 'title')
+      ]));
+    }
     
     initLangOpt();
     initDiscountOpt();

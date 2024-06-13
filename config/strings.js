@@ -40,10 +40,13 @@
     },
     'title': {
       'Day-pass Analyser': '全日通優惠分析',
+      'with octopus': '使用八達通',
       'Round-trip overview': '即日來回總覽',
       'Route planner': '計劃行程',
       'Data date': '資料日期',
-      'Info': '相關資料'
+      'Info': '相關資料',
+      'Click to use 2024-06-30 new fares': '按此使用 2024-06-30 新車費',
+      'Click to use current fares': '按此使用加價前車費',
     },
     'mtr': {
       'Select station': '選擇車站',

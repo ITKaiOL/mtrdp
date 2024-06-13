@@ -3,7 +3,7 @@
 
   const langEN = {
     'discount': {
-      'early-bird': 'Early Bird (end of journey)(35%)',
+      'early-bird': 'Early Bird (end of journey)',
       'early-bird-tst': 'Early Bird (b/f TST interchange)',
       'early-bird-dp': 'Early Bird (b/f using day pass)',
       'discount-5pc2': '5% Fare Savings (3.8% after fare adjustment)',
@@ -30,7 +30,7 @@
       'Inbound': '回程',
       'Outbound': '去程',
       'Day Pass': '全日通',
-      'early-bird': '早晨折扣 (尾程)(六五折)',
+      'early-bird': '早晨折扣 (尾程)',
       'early-bird-tst': '早晨折扣 (尖沙咀站轉乘前)',
       'early-bird-dp': '早晨折扣 (轉用全日通前)',
       'discount-5pc-2': '節省車費 5% (車費調整後實為 3.8%)',

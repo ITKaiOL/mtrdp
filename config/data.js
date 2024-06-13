@@ -4,7 +4,7 @@
   app.CONF = {};
   
   app.CONF.source = 'https://github.com/ITKaiOL/mtrdp';
-  app.CONF.date = '2021-06-27';
+  app.CONF.date = '2024-06-13';
   
   app.CONF.files = {
     stations: 'data/mtr_lines_and_stations.csv',
@@ -24,7 +24,7 @@
   // stations covered by day pass
   app.CONF.dayPass = {
     stations: ['120', '119', '118', '117', '116', '115', '114', '20', '53'],
-    price: 28,
+    price: 29,
   };
   
   // acceptable unit of time to take interchange for lower fare

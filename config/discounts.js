@@ -28,7 +28,7 @@
   const disDefs = {};
   
   // discount details
-  const DIS_EARLY_BIRD_RATE = 0.35;
+  const DIS_EARLY_BIRD_RATE = 0.25;
   const DIS_EARLY_BIRD_STATIONS = [
     // Admiralty to Kowloon Tong
     '2', '94', '64', '65', '8',
@@ -134,12 +134,13 @@
   };
   
   // needed this when there is a % discount
+  /* Not needed for now
   disDefs[disCodes.DIS_SHOW_TRANSIT] = {
     type: disTypes.DISTYPE_NON_TRIP,
     name: 'transit-choice',
     default: true,
   }
-  
+  */
   app.DISDEF = {
     types: disTypes,
     codes: disCodes,

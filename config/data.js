@@ -3,9 +3,9 @@
   
   app.CONF = {};
   app.CONF.source = 'https://github.com/ITKaiOL/mtrdp';
-  app.CONF.date = '2024-06-13';
-  app.CONF.newFareDate = '2024-06-30';
-  app.CONF.hasNewFare = new Date() < new Date(app.CONF.newFareDate);
+  app.CONF.date = '2024-06-30';
+  //app.CONF.newFareDate = '2024-06-30';
+  app.CONF.hasNewFare = app.CONF.hasOwnProperty('newFareDate') && new Date() < new Date(app.CONF.newFareDate);
   app.CONF.useNew = false;
   if((typeof _useNew != "undefined" && _useNew)) {
     app.CONF.useNew = true;
@@ -31,7 +31,7 @@
   // stations covered by day pass
   app.CONF.dayPass = {
     stations: ['120', '119', '118', '117', '116', '115', '114', '20', '53'],
-    price: 29,
+    price: 30,
   };
   
   // acceptable unit of time to take interchange for lower fare

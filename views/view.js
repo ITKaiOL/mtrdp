@@ -37,7 +37,7 @@
       app.DOM.matIcon('info'),
       app.LANG.create('Info', 'title')
     ]));
-    if(!app.CONF.useNew) {
+    if(app.CONF.hasNew && !app.CONF.useNew) {
       app.DOM.get('title').appendChild(app.DOM.create('a', { href: 'index_new.html' }, [
         app.DOM.matIcon('new_releases'),
         app.LANG.create('Click to use 2024-06-30 new fares', 'title')
